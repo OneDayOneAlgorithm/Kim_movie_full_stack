@@ -8,17 +8,27 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @AllArgsConstructor
-public class member {
+public class Member {
     @Id
     @GeneratedValue
     private Long memberId;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false, length = 20)
     @Setter
     private String password;
+
+    @Column(nullable = false, length = 20)
     @Setter
     private String username;
-    private String date_joined;
-    private Boolean isStaff;
+
+    @Setter
+    private String dateJoined;
+
+    @Column(nullable = false)
+    @Setter
+    private Boolean isStaff = false;
 
 }
