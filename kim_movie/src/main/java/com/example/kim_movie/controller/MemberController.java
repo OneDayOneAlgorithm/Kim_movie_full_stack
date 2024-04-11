@@ -34,8 +34,15 @@ public class MemberController {
         return memberAppService.retrieveList();
     }
 
+    @DeleteMapping("/{id}")
+    public Boolean deleteMember(@PathVariable Long id){
+        return memberAppService.deleteMember(id);
+    }
+
     @GetMapping("/follow/{fromId}/{toId}")
     public Boolean followMember(@PathVariable Long fromId, @PathVariable Long toId){
         return memberAppService.followMember(fromId, toId);
     }
+
+
 }

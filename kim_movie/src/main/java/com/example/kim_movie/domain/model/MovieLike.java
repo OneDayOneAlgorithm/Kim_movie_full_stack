@@ -1,10 +1,7 @@
 package com.example.kim_movie.domain.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
@@ -16,11 +13,15 @@ public class MovieLike {
     @GeneratedValue
     private Long movieLikeId;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "like_member_id")
-    private Member likeMemberId;
+    private Member likeMember;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "like_movie_id")
-    private Movie likeMovieId;
+    private Movie likeMovie;
+
+    @Column(nullable = false)
+    @Setter
+    private Boolean movieLikeDone;
 }

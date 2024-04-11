@@ -18,5 +18,9 @@ public class Genre {
 
     @Column(nullable = false, length = 20)
     @Setter
+    private Long genreNum;
+
+    @Column(nullable = false, length = 20)
+    @Setter
     private String genreName;
 }

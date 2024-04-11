@@ -30,5 +30,5 @@ public class BoardComment {
 
     @Column(nullable = false)
     @Setter
-    private Boolean edit = false;
+    private Boolean edit;
 }

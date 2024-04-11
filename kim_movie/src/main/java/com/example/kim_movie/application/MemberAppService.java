@@ -70,4 +70,10 @@ public class MemberAppService {
         memberFollowingRepository.save(memberFollowing);
         return memberFollowing.getFollowing();
     }
+
+    public Boolean deleteMember(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow();
+        memberRepository.delete(member);
+        return true;
+    }
 }

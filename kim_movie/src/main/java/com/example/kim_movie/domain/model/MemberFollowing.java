@@ -23,5 +23,5 @@ public class MemberFollowing {
 
     @Column(nullable = false)
     @Setter
-    private Boolean following = true;
+    private Boolean following;
 }

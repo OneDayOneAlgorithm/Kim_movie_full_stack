@@ -3,6 +3,8 @@ package com.example.kim_movie.domain.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Builder
 @NoArgsConstructor
@@ -29,6 +31,21 @@ public class Member {
 
     @Column(nullable = false)
     @Setter
-    private Boolean isStaff = false;
+    private Boolean isStaff;
+
+    @OneToMany(mappedBy = "fromMember", cascade = CascadeType.ALL)
+    private List<MemberFollowing> followingList;
+
+    @OneToMany(mappedBy = "toMember", cascade = CascadeType.ALL)
+    private List<MemberFollowing> followersList;
+
+    @OneToMany(mappedBy = "dibsMember", cascade = CascadeType.ALL)
+    private List<MovieDibs> movieDibsList;
+
+    @OneToMany(mappedBy = "likeMember", cascade = CascadeType.ALL)
+    private List<MovieLike> movieLikeList;
+
+    @OneToMany(mappedBy = "movieReviewMember", cascade = CascadeType.ALL)
+    private List<MovieReview> movieReviewList;
 
 }

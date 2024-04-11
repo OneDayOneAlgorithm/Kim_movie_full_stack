@@ -13,13 +13,13 @@ public class MovieReview {
     @GeneratedValue
     private Long movieReviewId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "movie_review_member_id")
-    private Member movieReviewMemberId;
+    @ManyToOne
+    @JoinColumn(name = "movie_review_member_id", referencedColumnName = "memberId")
+    private Member movieReviewMember;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "movie_review_movie_id")
-    private Movie movieReviewMovieId;
+    @ManyToOne
+    @JoinColumn(name = "movie_review_movie_id", referencedColumnName = "movieId")
+    private Movie movieReviewMovie;
 
     @Column(nullable = false, length = 100)
     @Setter
@@ -30,5 +30,5 @@ public class MovieReview {
 
     @Column(nullable = false)
     @Setter
-    private Boolean edit = false;
+    private Boolean edit;
 }

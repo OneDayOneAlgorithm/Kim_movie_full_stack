@@ -1,10 +1,9 @@
 package com.example.kim_movie.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Builder
@@ -32,5 +31,17 @@ public class Movie {
 
     @Column(nullable = false)
     @Setter
-    private Integer likePoint = 0;
+    private Integer likePoint;
+
+    @OneToMany(mappedBy = "dibsMovie", cascade = CascadeType.ALL)
+    private List<MovieDibs> movieDibslist;
+
+    @OneToMany(mappedBy = "likeMovie", cascade = CascadeType.ALL)
+    private List<MovieLike> movieLikelist;
+
+    @OneToMany(mappedBy = "movieReviewMovie", cascade = CascadeType.ALL)
+    private List<MovieReview> movieReviewlist;
+
+    @OneToMany(mappedBy = "movieGenreMovieId", cascade = CascadeType.ALL)
+    private List<MovieGenre> movieGenrelist;
 }

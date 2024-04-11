@@ -8,7 +8,7 @@ public class MemberResponse {
     @Data
     @Builder
     public static class Detail {
-        private Long id;
+        private Long memberId;
         private String email;
         private String password;
         private String username;
@@ -17,7 +17,7 @@ public class MemberResponse {
 
         public static Detail of(Member member){
             return Detail.builder()
-                    .id(member.getMemberId())
+                    .memberId(member.getMemberId())
                     .email(member.getEmail())
                     .password(member.getPassword())
                     .username(member.getUsername())
