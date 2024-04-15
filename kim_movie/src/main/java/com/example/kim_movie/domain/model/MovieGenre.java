@@ -18,9 +18,9 @@ public class MovieGenre {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "movie_genre_movie_id")
-    private Movie movieGenreMovieId;
+    private Movie movieGenreMovie;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "movie_genre_genre_id")
-    private Genre movieGenreGenreId;
+    private Genre movieGenreGenre;
 }

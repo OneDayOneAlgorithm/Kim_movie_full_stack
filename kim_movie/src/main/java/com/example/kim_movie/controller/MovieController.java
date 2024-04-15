@@ -16,16 +16,27 @@ import java.util.List;
 public class MovieController {
     private final MovieAppService movieAppService;
 
-//    @GetMapping("/{id}")
-//    public MovieResponse.Detail retrieveDetail(Long id){
-//        return movieAppService.retrievDetail(id);
-//    }
-//
-//    @GetMapping
-//    public List<MovieResponse.ListElem> retrieveDetail(){
-//        return movieAppService.retrieveList();
-//    }
-    @GetMapping("/{num}")
+    @GetMapping("/{id}")
+    public MovieResponse.Detail retrieveDetail(@PathVariable Long id){
+        return movieAppService.retrievDetail(id);
+    }
+
+    @GetMapping("/name/{name}")
+    public List<MovieResponse.Detail> retrieveDetail(@PathVariable String name){
+        return movieAppService.retrieveName(name);
+    }
+
+    @GetMapping
+    public List<MovieResponse.Detail> retrieveList(){
+        return movieAppService.retrieveList();
+    }
+
+    @GetMapping("/recommend/{memberId}")
+    public List<MovieResponse.Detail> retrieveRecommend(@PathVariable Long memberId){
+        return movieAppService.retrieveRecommend(memberId);
+    }
+
+    @GetMapping("/save/{num}")
     public Boolean saveMovieByTMDB(@PathVariable Long num) throws IOException {
         return movieAppService.saveMovieByTMDB(num);
     }

@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 
@@ -31,6 +34,7 @@ public class MovieAppService {
 
     OkHttpClient client = new OkHttpClient();
     ObjectMapper objectMapper = new ObjectMapper();
+
     public Boolean saveMovieByTMDB(Long num) throws IOException {
 
         Request request = new Request.Builder()
@@ -63,8 +67,8 @@ public class MovieAppService {
                 Genre genre = genreRepository.findByGenreNum(genreId);
                 if (genre != null) {
                     movieGenre = MovieGenre.builder()
-                            .movieGenreMovieId(movie)
-                            .movieGenreGenreId(genre)
+                            .movieGenreMovie(movie)
+                            .movieGenreGenre(genre)
                             .build();
 
                     movieGenreRepository.save(movieGenre);
@@ -101,13 +105,13 @@ public class MovieAppService {
         Member member = memberRepository.findById(memberId).orElseThrow();
         Movie movie = movieRepository.findById(movieId).orElseThrow();
         MovieDibs movieDibs = movieDibsRepository.findByDibsMemberAndDibsMovie(member, movie);
-        if(movieDibs == null) {
+        if (movieDibs == null) {
             movieDibs = MovieDibs.builder()
                     .dibsMember(member)
                     .dibsMovie(movie)
                     .dibsDone(true)
                     .build();
-        }else{
+        } else {
             movieDibs.setDibsDone(!movieDibs.getDibsDone());
         }
         movieDibsRepository.save(movieDibs);
@@ -118,13 +122,13 @@ public class MovieAppService {
         Member member = memberRepository.findById(memberId).orElseThrow();
         Movie movie = movieRepository.findById(movieId).orElseThrow();
         MovieLike movieLike = movieLikeRepository.findByLikeMemberAndLikeMovie(member, movie);
-        if(movieLike == null) {
+        if (movieLike == null) {
             movieLike = MovieLike.builder()
                     .likeMember(member)
                     .likeMovie(movie)
                     .movieLikeDone(true)
                     .build();
-        }else{
+        } else {
             movieLike.setMovieLikeDone(!movieLike.getMovieLikeDone());
         }
         movieLikeRepository.save(movieLike);
@@ -202,5 +206,62 @@ public class MovieAppService {
         return likeMovies.stream()
                 .map(MovieResponse.Detail::of) // 영화 목록을 MovieResponse 형식으로 변환
                 .collect(Collectors.toList());
+    }
+
+    public List<MovieResponse.Detail> retrieveList() {
+        return movieRepository.findAll().stream().map(MovieResponse.Detail::of).collect(Collectors.toList());
+    }
+
+    public MovieResponse.Detail retrievDetail(Long id) {
+        Movie movie = movieRepository.findById(id).orElseThrow();
+        System.out.println(movie.getMovieTitle());
+        return MovieResponse.Detail.of(movie);
+    }
+
+    public List<MovieResponse.Detail> retrieveName(String name) {
+        List<Movie> movies = movieRepository.findByMovieTitleContaining(name);
+        return movies.stream().map(MovieResponse.Detail::of).collect(Collectors.toList());
+    }
+
+    public List<MovieResponse.Detail> retrieveRecommend(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        List<Movie> movieLikeList = movieLikeRepository.findMoviesByLikeMemberAndMovieLikeDone(member, true);
+        List<Genre> genres = new ArrayList<>();
+
+        for (Movie movie : movieLikeList) {
+            List<Genre> movieGenres = movieGenreRepository.findGenresByMovie(movie);
+            genres.addAll(movieGenres);
+        }
+
+        // 중복된 장르를 제거합니다.
+        genres = genres.stream().distinct().collect(Collectors.toList());
+
+
+        Genre randomGenre = selectRandomGenre(genres);
+
+        // 선택된 장르에 해당하는 영화를 랜덤으로 중복 없이 10개 가져옵니다.
+        List<Movie> recommendedMovies = selectRandomMoviesByGenre(randomGenre);
+
+        // 영화 정보를 가공하여 반환합니다.
+        return recommendedMovies.stream().map(MovieResponse.Detail::of).collect(Collectors.toList());
+    }
+
+    private Genre selectRandomGenre(List<Genre> genres) {
+        Random random = new Random();
+        return genres.get(random.nextInt(genres.size()));
+    }
+
+    private List<Movie> selectRandomMoviesByGenre(Genre genre) {
+        List<Movie> moviesByGenre = movieGenreRepository.findMoviesByGenre(genre);
+        Random random = new Random();
+        int numMoviesToSelect = Math.min(10, moviesByGenre.size());
+
+        List<Movie> selectedMovies = new ArrayList<>();
+        while (selectedMovies.size() < numMoviesToSelect && !moviesByGenre.isEmpty()) {
+            Movie randomMovie = moviesByGenre.remove(random.nextInt(moviesByGenre.size()));
+            selectedMovies.add(randomMovie);
+        }
+
+        return selectedMovies;
     }
 }
