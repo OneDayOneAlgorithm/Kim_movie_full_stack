@@ -76,4 +76,9 @@ public class MemberAppService {
         memberRepository.delete(member);
         return true;
     }
+
+    public MemberResponse.Detail authenticate(String email, String password) {
+        Member member = memberRepository.findByEmailAndPassword(email,password);
+        return MemberResponse.Detail.of(member);
+    }
 }

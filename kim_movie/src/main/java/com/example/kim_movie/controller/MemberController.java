@@ -4,6 +4,7 @@ import com.example.kim_movie.application.MemberAppService;
 import com.example.kim_movie.controller.request.MemberRequest;
 import com.example.kim_movie.controller.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,5 +45,10 @@ public class MemberController {
         return memberAppService.followMember(fromId, toId);
     }
 
-
+    @PostMapping("/login")
+    public MemberResponse.Detail login(@RequestBody MemberRequest.Login request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+        return memberAppService.authenticate(email, password);
+    }
 }

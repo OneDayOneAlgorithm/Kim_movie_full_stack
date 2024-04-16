@@ -15,4 +15,10 @@ public class MemberRequest {
         private String password;
         private String username;
     }
+
+    @Data
+    public static class Login {
+        private String email;
+        private String password;
+    }
 }

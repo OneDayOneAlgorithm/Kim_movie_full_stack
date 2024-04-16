@@ -264,4 +264,15 @@ public class MovieAppService {
 
         return selectedMovies;
     }
+
+    public Boolean movieDibsTrue(Long memberId, Long movieId) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        Movie movie = movieRepository.findById(movieId).orElseThrow();
+        MovieDibs movieDibs = movieDibsRepository.findByDibsMemberAndDibsMovie(member, movie);
+        if (movieDibs.getDibsDone().equals(true)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

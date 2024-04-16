@@ -51,6 +51,11 @@ public class MovieController {
         return movieAppService.movieDibs(memberId, movieId);
     }
 
+    @GetMapping("/dibs/true/{memberId}/{movieId}")
+    public Boolean movieDibsTrue(@PathVariable Long memberId, @PathVariable Long movieId){
+        return movieAppService.movieDibsTrue(memberId, movieId);
+    }
+
     @GetMapping("/dibs/{memberId}")
     public List<MovieResponse.Detail> movieDibsList(@PathVariable Long memberId){
         return movieAppService.movieDibsList(memberId);
