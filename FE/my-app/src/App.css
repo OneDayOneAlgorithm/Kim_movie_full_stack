@@ -186,11 +186,12 @@
 }
 
 .movie-detail-modal-content {
-  background-color: #fefefe; /* 모달 내용의 배경색 */
+  background-color: #61dafb; /* 모달 내용의 배경색 */
   padding: 20px;
   border-radius: 5px; /* 내용의 테두리 설정 */
-  max-width: 80%; /* 모달의 최대 너비 */
+  max-width: 40%; /* 모달의 최대 너비 수정 */
 }
+
 
 .movie-detail-close {
   position: absolute;
@@ -213,3 +214,4 @@
 .movie-detail-info p {
   margin: 5px 0;
 }
+

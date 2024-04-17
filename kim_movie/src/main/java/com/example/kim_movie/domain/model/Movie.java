@@ -29,9 +29,9 @@ public class Movie {
     @Setter
     private String posterPath;
 
-    @Column(nullable = false)
+    @Column
     @Setter
-    private Integer likePoint;
+    private Integer likePoint = 0;
 
     @OneToMany(mappedBy = "dibsMovie", cascade = CascadeType.ALL)
     private List<MovieDibs> movieDibslist;

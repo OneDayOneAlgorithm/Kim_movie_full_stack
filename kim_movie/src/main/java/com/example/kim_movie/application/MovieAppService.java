@@ -275,4 +275,15 @@ public class MovieAppService {
             return false;
         }
     }
+
+    public Boolean movieLikeTrue(Long memberId, Long movieId) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        Movie movie = movieRepository.findById(movieId).orElseThrow();
+        MovieLike movieLike = movieLikeRepository.findByLikeMemberAndLikeMovie(member, movie);
+        if(movieLike.getMovieLikeDone().equals(true)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

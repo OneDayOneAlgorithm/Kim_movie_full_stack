@@ -71,6 +71,11 @@ public class MovieController {
         return movieAppService.movieLikeList(memberId);
     }
 
+    @GetMapping("/like/true/{memberId}/{movieId}")
+    public Boolean movieLikeTrue(@PathVariable Long memberId, @PathVariable Long movieId){
+        return movieAppService.movieLikeTrue(memberId, movieId);
+    }
+
     @PostMapping("/movieReview")
     public MovieReviewResponse.Detail createMovieReview(@RequestBody MovieReviewRequest.Create request){
         return movieAppService.createMovieReview(request);
